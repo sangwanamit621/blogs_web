@@ -26,27 +26,27 @@ Welcome to the Blogs Web Application! This project is a full-fledged web platfor
 
 1. Clone the repository:
     ```
-    git clone 
+    git clone https://github.com/sangwanamit621/blogs_web.git
     ```
 
 2. Navigate to the project directory:
     ```
-    cd 
+    cd blogs_web
     ```
 
 3. Allow the permission of execution to shell-scripts
     ```
-    cd 
+    sudo chmod +x shell_scripts/setup_project.sh
     ```
 
 4. Execute the setup_project.sh file to setup the project
     ```
-    cd 
+    ./shell_scripts/setup_project.sh 
     ```
 
-5. Execute the start_project.sh file to run the server
+5. Execute the below command to run the server
     ```
-    cd 
+    python3 manage.py runserver 
     ```
 
 6. Access the application in your web browser at http://localhost:8000.
