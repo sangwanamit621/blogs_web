@@ -1,0 +1,566 @@
+{
+	"info": {
+		"_postman_id": "cd68fd4e-edb4-4c85-8f42-4346e93163f0",
+		"name": "Blogs Web",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21438161"
+	},
+	"item": [
+		{
+			"name": "users_auth",
+			"item": [
+				{
+					"name": "Register User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\":\"testuser\",\n    \"password\":\"testuser@123\",\n    \"email\":\"testuser@email.com\",\n    \"first_name\":\"Test\",\n    \"last_name\":\"User\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8000/users/register/",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"users",
+								"register",
+								""
+							]
+						},
+						"description": "\nThis endpoint allows users to register by sending a POST request to localhost:8000/users/register/. The request should include a JSON payload in the raw request body type with the following parameters: username, password, email, first_name, and last_name. Upon successful execution, the server will respond with a status code of 201 and a JSON object containing the registered user's username, email, first name, and last name.\n"
+					},
+					"response": []
+				},
+				{
+					"name": "Generate Access Token",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\":\"testuser\",\n    \"password\":\"testuser@123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8000/users/token/",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"users",
+								"token",
+								""
+							]
+						},
+						"description": "\nThis endpoint is used to request a token for user authentication via HTTP POST to localhost:8000/users/token/. The request should include a payload in raw JSON format with the keys \"username\" and \"password\". Upon a successful execution, the response will have a status code of 200 and a content type of application/json. The response body will contain the keys \"refresh\" and \"access\" with their respective token values.\n"
+					},
+					"response": []
+				},
+				{
+					"name": "Refresh Access Token",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"refresh\":\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTcxMzI3NTY2MiwiaWF0IjoxNzEyODQzNjYyLCJqdGkiOiI0MThiMTY3NDk0Yzk0YTM1OWNjOGRkYmYyODNiZjlmNyIsInVzZXJfaWQiOjYsInVzZXJuYW1lIjoidGVzdHVzZXIifQ.N1cy5fSkTq3NaPvhyo04y5VWJJSiYtwdDX73mENgm8Q\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8000/users/token/refresh/",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"users",
+								"token",
+								"refresh",
+								""
+							]
+						},
+						"description": "This endpoint is a HTTP POST request to refresh the access token for a user. It is used to obtain a new access token by providing the refresh token in the request body.\n\n**Note: This is alternate API Endpoint to generate access token using refresh token. We can use localhost:8000/users/token/ to generate access token using username and password.**\n\n### Request Body\n\n- refresh (text, required): A string parameter containing the refresh token.\n    \n\n### Response\n\n- Status: 200\n- Content-Type: application/json\n- access (string): The new access token.\n- refresh (string): The new refresh token."
+					},
+					"response": []
+				},
+				{
+					"name": "Change Password",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzEyODQ1Njc0LCJpYXQiOjE3MTI4NDM2NjIsImp0aSI6ImRmZWZkNDllZThiYzQxZDlhYjgzYjRjNmRjMTFmMDE0IiwidXNlcl9pZCI6NiwidXNlcm5hbWUiOiJ0ZXN0dXNlciJ9.3qAGRos3iifDWgnv2KCH5cshbF8oHJS80kTmdmVd3Bc",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\":\"testuser\",\n    \"old_password\":\"testuser@123\",\n    \"new_password\":\"usertest@123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8000/users/change_password/testuser/",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"users",
+								"change_password",
+								"testuser",
+								""
+							]
+						},
+						"description": "This endpoint allows users to change their password by sending an HTTP PUT request to localhost:8000/users/change_password/testuser/. The request should include a JSON payload in the raw request body type with the keys \"username\", \"old_password\", and \"new_password\".\n\n### Request Body\n\n- `username` (string): The username of the user.\n- `old_password` (string): The user's current password.\n- `new_password` (string): The new password to be set.\n    \n\n### Response\n\nUpon successful execution, the endpoint returns a status code of 200 and a JSON response with the following fields:\n\n- `message` (string): A message related to the password change operation.\n- `details` (string): Additional details about the password change.\n- `status` (integer): Indicates the status of the operation (e.g., 0 for success)."
+					},
+					"response": []
+				},
+				{
+					"name": "Modify User Details",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzEyODQ1Njc0LCJpYXQiOjE3MTI4NDM2NjIsImp0aSI6ImRmZWZkNDllZThiYzQxZDlhYjgzYjRjNmRjMTFmMDE0IiwidXNlcl9pZCI6NiwidXNlcm5hbWUiOiJ0ZXN0dXNlciJ9.3qAGRos3iifDWgnv2KCH5cshbF8oHJS80kTmdmVd3Bc",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\":\"usertest\",\n    \"first_name\":\"User\",\n    \"last_name\":\"Test\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8000/users/update_details/testuser/",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"users",
+								"update_details",
+								"testuser",
+								""
+							]
+						},
+						"description": "This endpoint allows you to update the details of a specific user. Make an HTTP PATCH request to localhost:8000/users/update_details/testuser/ with the required details in the request body.\n\n### Request Body\n\n- **username** (string, optional): The new username for the user.\n- **first_name** (string, optional): The new first name for the user.\n- **last_name** (string, optional): The new last name for the user.\n    \n\n### Response\n\nUpon a successful update, the endpoint will return a status code of 200 and a JSON response with the following structure:\n\n``` json\n{\n    \"message\": \"string\",\n    \"updated_details\": {\n        \"username\": \"string\",\n        \"first_name\": \"string\",\n        \"last_name\": \"string\",\n        \"email\": \"string\"\n    },\n    \"status\": 0\n}\n\n ```\n\n- **message** (string): A message indicating the outcome of the update operation.\n- **updated_details** (object): An object containing the updated user details, including the username, first name, last name, and email.\n- **status** (integer): A status code indicating the success of the operation."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "blogs_app",
+			"item": [
+				{
+					"name": "Post Operations",
+					"item": [
+						{
+							"name": "Create Post",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzEyODQ1Njc0LCJpYXQiOjE3MTI4NDM2NjIsImp0aSI6ImRmZWZkNDllZThiYzQxZDlhYjgzYjRjNmRjMTFmMDE0IiwidXNlcl9pZCI6NiwidXNlcm5hbWUiOiJ0ZXN0dXNlciJ9.3qAGRos3iifDWgnv2KCH5cshbF8oHJS80kTmdmVd3Bc",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"title\": \"Test Post Title\",\n    \"content\": \"This is Test post\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8000/blogs/posts/",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"blogs",
+										"posts",
+										""
+									]
+								},
+								"description": "### Add a New Blog Post\n\nThis endpoint allows you to add a new blog post.\n\n#### Request Body\n\n- `title` (string, required): The title of the blog post.\n- `content` (string, required): The content of the blog post.\n    \n\n#### Response\n\n- Status: 201 Created\n- Content-Type: application/json\n- `status` (int): Indicates the status of the request.\n- `message` (string): A message related to the status of the request.\n- `data` (object): Contains the details of the newly added blog post.\n    - `post_id` (int): The unique identifier of the post.\n    - `title` (string): The title of the post.\n    - `author` (string): The author of the post.\n    - `content` (string): The content of the post.\n    - `published_on` (string): The date when the post was published.\n    - `modified_on` (string): The date when the post was last modified."
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve Posts",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzEyODQ1Njc0LCJpYXQiOjE3MTI4NDM2NjIsImp0aSI6ImRmZWZkNDllZThiYzQxZDlhYjgzYjRjNmRjMTFmMDE0IiwidXNlcl9pZCI6NiwidXNlcm5hbWUiOiJ0ZXN0dXNlciJ9.3qAGRos3iifDWgnv2KCH5cshbF8oHJS80kTmdmVd3Bc",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8000/blogs/posts/",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"blogs",
+										"posts",
+										""
+									]
+								},
+								"description": "This endpoint makes an HTTP GET request to retrieve a list of blog posts. The response returns a JSON object with a \"count\" indicating the total number of posts, \"next\" containing the URL for the next page of results, \"previous\" with the URL for the previous page, and \"results\" containing an array of blog post objects. Each blog post object includes \"post_id\", \"title\", \"author\", \"content\", \"published_on\", and \"modified_on\" fields.\n\nThe response status for the last execution was 200, indicating a successful request, and the content type was \"application/json\".\n\n#### Response:\n\n``` json\n{\n  \"count\": 16,\n  \"next\": \"http://localhost:8000/blogs/posts/?page=2\",\n  \"previous\": null,\n  \"results\": [\n    {\n      \"post_id\": 2,\n      \"title\": \"First Post\",\n      \"author\": \"root\",\n      \"content\": \"This is first post\",\n      \"published_on\": \"2024-04-10T09:03:26.114989Z\",\n      \"modified_on\": \"2024-04-10T09:03:26.115008Z\"\n    },\n    {\n      \"post_id\": 3,\n      \"title\": \"First Post\",\n      \"author\": \"root\",\n      \"content\": \"This is first post\",\n      \"published_on\": \"2024-04-10T09:03:45.044407Z\",\n      \"modified_on\": \"2024-04-10T09:03:45.044437Z\"\n    }\n  ]\n}\n\n ```"
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Post",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzEyODQ1Njc0LCJpYXQiOjE3MTI4NDM2NjIsImp0aSI6ImRmZWZkNDllZThiYzQxZDlhYjgzYjRjNmRjMTFmMDE0IiwidXNlcl9pZCI6NiwidXNlcm5hbWUiOiJ0ZXN0dXNlciJ9.3qAGRos3iifDWgnv2KCH5cshbF8oHJS80kTmdmVd3Bc",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "localhost:8000/blogs/posts/21/",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"blogs",
+										"posts",
+										"21",
+										""
+									]
+								},
+								"description": "\n## Delete Blog Post\nThis endpoint is used to delete a specific blog post.\n\n### Request\n- Method: DELETE\n- URL: `localhost:8000/blogs/posts/21/`\n\n### Response\n- Status: 200\n- Content Type: application/json\n- Body:\n  ```json\n  {\n      \"status\": 0,\n      \"message\": \"\"\n  }\n  ```\n"
+							},
+							"response": []
+						},
+						{
+							"name": "Modify Post",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzEyODQ1Njc0LCJpYXQiOjE3MTI4NDM2NjIsImp0aSI6ImRmZWZkNDllZThiYzQxZDlhYjgzYjRjNmRjMTFmMDE0IiwidXNlcl9pZCI6NiwidXNlcm5hbWUiOiJ0ZXN0dXNlciJ9.3qAGRos3iifDWgnv2KCH5cshbF8oHJS80kTmdmVd3Bc",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"title\":\"Modifying the Test Post title\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8000/blogs/posts/21/",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"blogs",
+										"posts",
+										"21",
+										""
+									]
+								},
+								"description": "\nThis endpoint allows you to update specific details of a blog post. \n\n### Request\n- Method: PATCH\n- URL: `localhost:8000/blogs/posts/21/`\n- Body (raw, JSON):\n  ```json\n  {\n    \"title\": \"\"\n  }\n  ```\n\n### Response\n- Status: 200\n- Content-Type: application/json\n- Body:\n  ```json\n  {\n    \"status\": 0,\n    \"message\": \"\",\n    \"data\": {\n      \"post_id\": 0,\n      \"title\": \"\",\n      \"author\": \"\",\n      \"content\": \"\",\n      \"published_on\": \"\",\n      \"modified_on\": \"\"\n    }\n  }\n  ```\n"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Comments Operations",
+					"item": [
+						{
+							"name": "Add Comment",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzEyODQ3NjAxLCJpYXQiOjE3MTI4NDM2NjIsImp0aSI6ImZmMmY1ODVkZjYxNzQxYjM5N2ZhYTkyNDU3ZjY1NjkxIiwidXNlcl9pZCI6NiwidXNlcm5hbWUiOiJ0ZXN0dXNlciJ9.qkF3HWssHZtfvLGx7uPp8GZGi2yi7D1ehujFUA7VVns",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"comment\": \"This is a Test Comment on a Post\",\n    \"post_id\": 14\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8000/blogs/comments/",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"blogs",
+										"comments",
+										""
+									]
+								},
+								"description": "### Add a Comment to a Blog Post\n\nThis endpoint allows you to add a comment to a specific blog post.\n\n**Request Body**\n\n- `comment` (string, required): The comment to be added.\n- `post_id` (integer, required): The ID of the blog post to which the comment is being added.\n    \n\n**Response**\n\n- Status: 201 Created\n- Content-Type: application/json\n    \n\nExample response body:\n\n``` json\n{\n    \"comment_id\": 0,\n    \"post_id\": 0,\n    \"user_id\": \"\",\n    \"comment\": \"\",\n    \"published_on\": \"\",\n    \"modified_on\": \"\"\n}\n\n ```"
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve Comments",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzEyODQ3NjAxLCJpYXQiOjE3MTI4NDM2NjIsImp0aSI6ImZmMmY1ODVkZjYxNzQxYjM5N2ZhYTkyNDU3ZjY1NjkxIiwidXNlcl9pZCI6NiwidXNlcm5hbWUiOiJ0ZXN0dXNlciJ9.qkF3HWssHZtfvLGx7uPp8GZGi2yi7D1ehujFUA7VVns",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8000/blogs/comments/",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"blogs",
+										"comments",
+										""
+									]
+								},
+								"description": "\nThis endpoint makes an HTTP GET request to retrieve comments for blogs. The response will have a status code of 200 and a content type of application/json. The response body will include a count of comments, along with details of each comment such as comment_id, post_id, user_id, comment content, published date, and modified date.\n"
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Post",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzEyODQ3OTA3LCJpYXQiOjE3MTI4NDM2NjIsImp0aSI6Ijk1YWNkZmQ2MjM2YjQ1NGRhMDFmMzZlN2M0MWYyZmU1IiwidXNlcl9pZCI6NiwidXNlcm5hbWUiOiJ0ZXN0dXNlciJ9.Zk3YOmWjlN_eu2FLEilFSzwhcBh6n-qMnqMAs6WA-j4",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "localhost:8000/blogs/comments/7/",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"blogs",
+										"comments",
+										"7",
+										""
+									]
+								},
+								"description": "### Delete Blog Comment\n\nThis endpoint is used to delete a specific comment on a blog.\n\n#### Request Parameters\n\n- `blog_id` (path) : The unique identifier of the blog.\n- `comment_id` (path) : The unique identifier of the comment to be deleted.\n    \n\n#### Response\n\n- Status: 200\n- Content-Type: application/json\n    \n\nExample Response Body:\n\n``` json\n{\n    \"status\": 0,\n    \"message\": \"\"\n}\n\n ```"
+							},
+							"response": []
+						},
+						{
+							"name": "Modify Comment",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzEyODQ3OTA3LCJpYXQiOjE3MTI4NDM2NjIsImp0aSI6Ijk1YWNkZmQ2MjM2YjQ1NGRhMDFmMzZlN2M0MWYyZmU1IiwidXNlcl9pZCI6NiwidXNlcm5hbWUiOiJ0ZXN0dXNlciJ9.Zk3YOmWjlN_eu2FLEilFSzwhcBh6n-qMnqMAs6WA-j4",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"comment\": \"This is a Modified Test Comment on a Post\",\n    \"post_id\": 14\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8000/blogs/comments/7/",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"blogs",
+										"comments",
+										"7",
+										""
+									]
+								},
+								"description": "This HTTP PUT request is used to update a comment on a specific blog post. The request should be sent to localhost:8000/blogs/comments/comment_id/ with a JSON payload in the raw request body.\n\n### Request Body\n\n- `comment`: (string) The updated comment text.\n- `post_id`: (number) The ID of the blog post to which the comment belongs.\n    \n\n### Response\n\nUpon a successful update, the server responds with a status code of 200 and a JSON object in the response body.\n\n- `status`: (number) Indicates the status of the operation.\n- `message`: (string) A message related to the status.\n- `data`: (object) Contains the updated comment details.\n    - `comment_id`: (number) The ID of the updated comment.\n    - `post_id`: (number) The ID of the blog post to which the comment belongs.\n    - `user_id`: (string) The ID of the user who made the comment.\n    - `comment`: (string) The updated comment text.\n    - `published_on`: (string) The date and time when the comment was originally published.\n    - `modified_on`: (string) The date and time when the comment was last modified."
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	]
+}
