@@ -61,7 +61,7 @@ Welcome to the Blogs Web Application! This project is a full-fledged web platfor
 
 ## API Endpoints
 
-Check out the full list of API endpoints and their functionalities in the API documentation.
+Check out the full list of API endpoints and their functionalities in the <a href="https://github.com/sangwanamit621/blogs_web/blob/84c22e4a8c1b7fd9466a843f2b65211d75d936ba/API%20docs/API_DOCS.md">API documentation</a>.
 
 
 
