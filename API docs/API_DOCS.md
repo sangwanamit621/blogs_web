@@ -337,4 +337,4 @@ In case of errors, the API will return appropriate HTTP status codes along with 
 
 
 
-For using API collection, import the collection json file in Postman.
+For using API collection, import the __Blogs Web.postman_collection.json__ file in Postman.
